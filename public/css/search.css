@@ -1,0 +1,66 @@
+* {
+    box-sizing: border-box;
+}
+
+/* Style the search field */
+form.example input[type=search] {
+    padding: 5px;
+    font-size: 17px;
+    border: 1px solid #f57106;
+    float: left;
+    width: 80%;
+    background: #f1f1f1;
+}
+
+/* Style the submit button */
+form.example button {
+    float: left;
+    width: 20%;
+    padding: 5px;
+    background: #fd7e14;
+    color: white;
+    font-size: 17px;
+    border: 1px solid #f57106;
+    border-left: none; /* Prevent double borders */
+    cursor: pointer;
+}
+
+form.example button:hover {
+    background: #f57106;
+}
+
+/* Clear floats */
+form.example::after {
+    content: "";
+    clear: both;
+    display: table;
+}
+
+/*------------------------------------------Стилизация радиокнопок*/
+input[type='radio']:after {
+    width: 15px;
+    height: 15px;
+    border-radius: 15px;
+    top: 3px;
+    left: -1px;
+    position: relative;
+    background-color: #d1d3d1;
+    content: '';
+    display: inline-block;
+    visibility: visible;
+    border: 2px solid white;
+}
+
+input[type='radio']:checked:after {
+    width: 15px;
+    height: 15px;
+    border-radius: 15px;
+    top: 3px;
+    left: -1px;
+    position: relative;
+    background-color: #f57106;
+    content: '';
+    display: inline-block;
+    visibility: visible;
+    border: 2px solid white;
+}

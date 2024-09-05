@@ -1,0 +1,30 @@
+a.link h4 {
+    text-decoration: none;
+    opacity: .8;
+}
+
+a.link:hover h4 {
+    opacity: 1;
+}
+
+@media screen and (max-width: 640px) {
+    .form-row {
+        font-size: 12px;
+    }
+
+    .col-md-9 {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+}
+
+
+img.rightM {
+    float: right;
+    opacity: .8;
+}
+
+.page-item.active .page-link {
+    background-color: #fd5310;
+    border-color: #fd5310;
+}
