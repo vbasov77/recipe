@@ -14,44 +14,49 @@ for (const attribute of attributes) {
 }
 $('.messages').animate({scrollTop: $('.messages ul').height()}, "fast");
 
+
 function newMessage() {
     var message = escapeHtml($('.message-input input').val());
-    data = {
+
+    var socketMessage = to_user_id + '&' + message;
+
+    var room = getNameChat(to_user_id, from_user_id);
+
+    dataRoom = {
         "to_user_id": to_user_id,
         "from_user_id": from_user_id,
+        "room": room,
         "body": message,
     };
-    $.ajax({
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        },
-        url: '/add_message',
-        type: 'post',
-        data: data,
-        dataType: 'json',
-        success: function (res) {
-            arrayId.push(res.id);
-            let date = new Date(res.date);
+
+    // alert(JSON.stringify(dataRoom));
+    socket.send(JSON.stringify(dataRoom));
+
+    socket.onmessage = function (event) {
+
+        data = JSON.parse(event.data)
+        // console.log(event.data);
+
+        arrayId.push(data.id);
+        let date = new Date(data.date);
+        if ($.trim(message) == '') {
+            message = $('.message-input .emoji-wysiwyg-editor').html();
             if ($.trim(message) == '') {
-                message = $('.message-input .emoji-wysiwyg-editor').html();
-                if ($.trim(message) == '') {
-                    return false;
-                }
+                return false;
             }
-            $(`<li class="sent"> <div class="myClass">
-<div id="` + res.id + `" data-id="` + res.id + `" style="float: right; font-size: 17px; background-color: #dad6f5; " class="messageBlock">
+        }
+        $(`<li class="sent"> <div class="myClass">
+<div id="` + data.id + `" data-id="` + data.id + `" style="float: right; font-size: 17px; background-color: #dad6f5; " class="messageBlock">
 <div class="round-popup">
-<button data-id="` + res.id + `" type="button" class="close"
+<button data-id="` + data.id + `" type="button" class="close"
                                             aria-label="Close"><span aria-hidden="true">&times;</span></button> </div>
-${res.body}<br>
+${data.body}<br>
                 <small  style="font-size: 10px" class="mb-0 text-left">${date.toLocaleString()}</small >
                 </div></div></li>`).appendTo($('.messages ul'));
-            $('.message-input input').val('');
-            $('.message-input .emoji-wysiwyg-editor').html('');
-            $('.messages').animate({scrollTop: $('.messages ul').height()}, "fast");
-        }
-    });
-
+        $('.message-input input').val('');
+        $('.message-input .emoji-wysiwyg-editor').html('');
+        $('.messages').animate({scrollTop: $('.messages ul').height()}, "fast");
+    };
 
 };
 
@@ -93,5 +98,15 @@ $('body').on('click', '.close', function () {
             }
         }
     });
-
 });
+
+function getNameChat(one, two) {
+    let num = "";
+
+    if (one < two) {
+        num = one + '_' + two;
+    } else {
+        num = two + '_' + one;
+    }
+    return num;
+}

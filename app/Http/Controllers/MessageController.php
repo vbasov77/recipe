@@ -8,7 +8,7 @@ use App\Services\MessageService;
 use App\Services\UserService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
+use WebSocket\Client;
 
 class MessageController extends Controller
 {
@@ -82,6 +82,7 @@ class MessageController extends Controller
         $id = $this->messageService->store($message);
 
         $date = $this->messageService->findCreatedAt($id);
+
         return response()->json([
             'bool' => true,
             'id' => $id,

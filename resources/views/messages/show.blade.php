@@ -122,6 +122,23 @@
                 var to_user_id = @json($toUser);
                 var from_user_id = @json($userId);
             </script>
+
+            <script>
+                var socket = new WebSocket("ws://192.168.31.163:8082");
+
+                socket.onopen = function () {
+                    console.log("Соединение установлено...");
+                };
+
+                socket.onclose = function (event) {
+                    if (event.wasClean) {
+                        console.log('Соединение закрыто чисто');
+                    } else {
+                        alert('Обрыв соединения'); // например, "убит" процесс сервера
+                    }
+                };
+
+            </script>
             <script src="{{asset('js/messages/message.js')}}"></script>
         @endpush
     @endif

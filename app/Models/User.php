@@ -18,6 +18,8 @@ class User extends Authenticatable
 
     public $timestamps = false;
 
+    private $id;
+
     protected $fillable = [
         'name', 'email', 'password',
     ];
@@ -48,6 +50,11 @@ class User extends Authenticatable
     public function isAuthor(int $userIdOfThisRecipe)
     {
         return $this->id == $userIdOfThisRecipe;
+    }
+
+    public function getId()
+    {
+        return $this->id;
     }
 
 
