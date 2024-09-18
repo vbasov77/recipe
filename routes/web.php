@@ -9,6 +9,7 @@ use App\Http\Controllers\SearchController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\MessageController;
 use \Illuminate\Support\Facades\Auth;
+use \App\Http\Controllers\SessionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -47,6 +48,8 @@ Route::get('/delete_chat', 'MessageController@deleteChat')->name('delete.chat')-
 Route::post('/check_message', 'MessageController@checkNewMsg')->name('check.message')->middleware('auth');
 Route::post('/notified', 'MessageController@notified')->name('notified.message')->middleware('auth');
 
+Route::post('/add_session', [SessionController::class, 'addSession'])->name('add.session')->middleware('auth');
+
 
 Route::get('/clear', function () {
     Artisan::call('cache:clear');
@@ -56,5 +59,9 @@ Route::get('/clear', function () {
     return "Кэш очищен.";
 })->name('clear');
 
+Route::get('/ws', function () {
+    Artisan::call('ws:run');
+    return "socket запущен...";
+});
 Auth::routes();
 
